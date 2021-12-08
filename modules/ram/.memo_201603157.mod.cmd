@@ -1,0 +1,1 @@
+cmd_/home/runi/Documentos/sopes1/modules/ram/memo_201603157.mod := { echo  /home/runi/Documentos/sopes1/modules/ram/memo_201603157.o;  echo; } > /home/runi/Documentos/sopes1/modules/ram/memo_201603157.mod
