@@ -46,14 +46,15 @@ static int my_proc_show(struct seq_file *archivo,void *v){
     //unsigned long ramLibre = si.freeram;
     int number = 10;
 
-    seq_printf(archivo, "[\n");
-    seq_printf(archivo, "    {\n");
-    seq_printf(archivo, "        \"total_ram\": %lu,\n", si.totalram * 4 / 1024);
-    seq_printf(archivo, "        \"free_ram\": %lu,\n", si.freeram * 4 / 1024);
-    seq_printf(archivo, "        \"usage_ram\": %lu,\n", (si.totalram - si.freeram) * 4 / 1024);
-    seq_printf(archivo, "        \"usage_percentage\": %lu\n", ((si.totalram - si.freeram) * 100) / si.totalram);
-    seq_printf(archivo, "    }\n");
-    seq_printf(archivo, "]\n");
+    //seq_printf(archivo, "[\n");
+    seq_printf(archivo, "{");
+    seq_printf(archivo, "\"totalRam\":%lu,", si.totalram * 4 / 1024);
+    seq_printf(archivo, "\"freeRam\":%lu,", si.freeram * 4 / 1024);
+	seq_printf(archivo, "\"sharedRam\":%lu,", si.sharedram * 4 / 1024);
+    seq_printf(archivo, "\"usageRam\":%lu,", (si.totalram - si.freeram) * 4 / 1024);
+    seq_printf(archivo, "\"usagePercentage\":%lu", ((si.totalram - si.freeram) * 100) / si.totalram);
+    seq_printf(archivo, "}");
+    //seq_printf(archivo, "]\n");
 
 	return 0;
 }
