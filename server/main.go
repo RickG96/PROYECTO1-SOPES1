@@ -46,6 +46,10 @@ func homePage(w http.ResponseWriter, r *http.Request){
 }
 
 func returnRamInfo(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "text/html; charset=ascii")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers","Content-Type,access-control-allow-origin, access-control-allow-headers")
+
     fmt.Println("Request modulo ram...")
 
     cmd := exec.Command("sh", "-c", "cat /proc/memo_201603157")
