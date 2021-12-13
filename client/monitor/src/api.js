@@ -4,6 +4,11 @@ const getRam = () => {
     return http.get('/modulo_ram');
 }
 
+const getProcess = () => {
+    return http.get('/modulo_cpu');
+}
+
 export default {
-    getRam
+    getRam,
+    getProcess
 }

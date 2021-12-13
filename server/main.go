@@ -20,6 +20,19 @@ type Ram struct {
     Sharedram int `json:"sharedRam"`
 }
 
+type Cpuhijo struct {
+    Pid int `json:"pid"`
+    Name string `json:"name"`
+    State int `json:"state"`
+}
+
+type Cpu struct {
+    Pid int `json:"pid"`
+    Name string `json:"name"`
+    State int `json:"state"`
+    Hijo []Cpuhijo `json:"childs"`
+}
+
 func getMemoryCache() int {
     cmd := exec.Command("sh", "-c", "free -m | head --line=2 | tail --line=1 | awk '{print $6}'")
     
@@ -85,12 +98,38 @@ func returnRamInfo(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(data)
 }
 
+func returnCpuInfo(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "text/html; charset=ascii")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers","Content-Type,access-control-allow-origin, access-control-allow-headers")
+
+    fmt.Println("Request modulo Cpu...")
+
+    cmd := exec.Command("sh", "-c", "cat /proc/cpu_201603157")
+    out, err := cmd.CombinedOutput()
+
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    output := string(out[:])
+
+    //fmt.Println(output)
+
+    data := []Cpu{}
+    
+    json.Unmarshal([]byte(output), &data)
+
+    json.NewEncoder(w).Encode(data)
+}
+
 func handleRequests() {
 
     //myRouter := mux.NewRouter().StrictSlash(true)
 
     //http.HandleFunc("/", homePage)
     http.HandleFunc("/modulo_ram", returnRamInfo)
+    http.HandleFunc("/modulo_cpu", returnCpuInfo)
 
     log.Fatal(http.ListenAndServe(":10000", nil))
 }

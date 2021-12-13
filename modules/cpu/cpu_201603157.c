@@ -34,39 +34,49 @@ static char *str = NULL;
 
 static int my_proc_show(struct seq_file *archivo,void *v){
 
-    seq_printf(archivo, "[\n");
+    seq_printf(archivo, "[");
 	
+    int contador = 0;
+    int contadorHijos = 0;
+    
     for_each_process( task ){
+        
+        if(contador != 0) {
+            seq_printf(archivo, ",");
+        }
 
-        seq_printf(archivo, "    {\n");
-        seq_printf(archivo, "        \"pid\": %d,\n", task->pid);
-        seq_printf(archivo, "        \"name\": \"%s\",\n", task->comm);
-        seq_printf(archivo, "        \"state\": %ld,\n", task->state);
-        seq_printf(archivo, "        \"ram\": %lu,\n", __kuid_val(task->real_cred->uid));
-        seq_printf(archivo, "        \"childs\": [\n");
-        //seq_printf(archivo, "\nPARENT PID: %d PROCESS: %s STATE: %ld",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
+        contadorHijos = 0;
+
+        seq_printf(archivo, "{");
+        seq_printf(archivo, "\"pid\": %d,", task->pid);
+        seq_printf(archivo, "\"name\": \"%s\",", task->comm);
+        seq_printf(archivo, "\"state\": %ld,", task->state);
+        //seq_printf(archivo, "\"ram\": %lu,", __kuid_val(task->real_cred->uid));
+        seq_printf(archivo, "\"childs\": [");
+        //seq_printf(archivo, "PARENT PID: %d PROCESS: %s STATE: %ld",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
         list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
+
+            if(contadorHijos != 0) {
+                seq_printf(archivo, ",");
+            }
 
             task_child = list_entry( list, struct task_struct, sibling );    /*    using list_entry to declare all vars in task_child struct    */
 
-            //rss = get_mm_rss(task_child->mm) << PAGE_SHIFT;
-
-            seq_printf(archivo, "            {\n");
-            seq_printf(archivo, "                \"pid\": %d,\n", task_child->pid);
-            seq_printf(archivo, "                \"name\": \"%s\",\n", task_child->comm);
-            seq_printf(archivo, "                \"state\": %ld,\n", task_child->state);
-            //seq_printf(archivo, "                \"ram\": %lu,\n", rss / 1024);
-            seq_printf(archivo, "            },\n");
-            //seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld",task->comm, task->pid, /*    log child of and child pid/name/state    */
-            //    task_child->pid, task_child->comm, task_child->state);
+            seq_printf(archivo, "{");
+            seq_printf(archivo, "\"pid\": %d,", task_child->pid);
+            seq_printf(archivo, "\"name\": \"%s\",", task_child->comm);
+            seq_printf(archivo, "\"state\": %ld", task_child->state);
+            
+            seq_printf(archivo, "}");
+            
+            contadorHijos++;
         }
-        seq_printf(archivo, "        ],\n");
-        seq_printf(archivo, "    },\n");
-        
-        //seq_printf(archivo, "\n-----------------------------------------------------\n");    /*for aesthetics*/
+        seq_printf(archivo, "]");
+        seq_printf(archivo, "}");
+        contador++;
     } 
 
-    seq_printf(archivo, "]\n");
+    seq_printf(archivo, "]");
 
 	return 0;
 }
@@ -110,7 +120,7 @@ static int __init on_init(void)
     if(!entry){
 		return -1;	
 	}else{
-		printk(KERN_INFO "Creando proc file... 201603157\n");
+		printk(KERN_INFO "Creando proc file... 201603157");
 	}
 
 	return 0;
@@ -120,7 +130,7 @@ static void __exit on_exit(void)
 {
     // Código dentro del evento EXIT
     remove_proc_entry("cpu_201603157", NULL);
-    printk(KERN_INFO "Removiendo modulo ram SOPES 1\n");
+    printk(KERN_INFO "Removiendo modulo ram SOPES 1");
 }
 
 // esta llamada carga la función que se ejecutará en el init

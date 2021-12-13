@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import { render } from "react-dom";
-import { VictoryChart, VictoryArea, VictoryTheme, VictoryAxis, VictoryLabel } from "victory";
+import React, { Component } from 'react';
+import { VictoryChart, VictoryArea, VictoryTheme, VictoryAxis } from "victory";
 
 import api from '../api';
 
