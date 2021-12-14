@@ -9,7 +9,7 @@ import (
     //"reflect"
     "strconv"
     "strings"
-    //"github.com/gorilla/mux"
+    "github.com/gorilla/mux"
 )
 
 type Ram struct {
@@ -30,7 +30,13 @@ type Cpu struct {
     Pid int `json:"pid"`
     Name string `json:"name"`
     State int `json:"state"`
+    Uid int `json:"uid"`
+    User string `json:"user"`
     Hijo []Cpuhijo `json:"childs"`
+}
+
+func getUidUserName(uid int) string {
+    return ""
 }
 
 func getMemoryCache() int {
@@ -56,6 +62,20 @@ func getMemoryCache() int {
 func homePage(w http.ResponseWriter, r *http.Request){
     fmt.Fprintf(w, "Welcome to the HomePage!")
     fmt.Println("Endpoint Hit: homePage")
+}
+
+func killProcess(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "text/html; charset=ascii")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers","Content-Type,access-control-allow-origin, access-control-allow-headers")
+
+    fmt.Println("Request kill process...")
+
+    vars := mux.Vars(r)
+    key := vars["id"]
+
+    fmt.Println("key: " + key)
+    fmt.Fprintf(w, "Key: " + key)
 }
 
 func returnRamInfo(w http.ResponseWriter, r *http.Request) {
@@ -130,6 +150,7 @@ func handleRequests() {
     //http.HandleFunc("/", homePage)
     http.HandleFunc("/modulo_ram", returnRamInfo)
     http.HandleFunc("/modulo_cpu", returnCpuInfo)
+    http.HandleFunc("/kill_process/{id}", killProcess)
 
     log.Fatal(http.ListenAndServe(":10000", nil))
 }

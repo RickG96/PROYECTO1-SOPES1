@@ -51,7 +51,7 @@ static int my_proc_show(struct seq_file *archivo,void *v){
         seq_printf(archivo, "\"pid\": %d,", task->pid);
         seq_printf(archivo, "\"name\": \"%s\",", task->comm);
         seq_printf(archivo, "\"state\": %ld,", task->state);
-        //seq_printf(archivo, "\"ram\": %lu,", __kuid_val(task->real_cred->uid));
+        seq_printf(archivo,  "\"uid\": %d,", __kuid_val(task->real_cred->uid));
         seq_printf(archivo, "\"childs\": [");
         //seq_printf(archivo, "PARENT PID: %d PROCESS: %s STATE: %ld",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
         list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
