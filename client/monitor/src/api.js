@@ -8,8 +8,8 @@ const getProcess = () => {
     return http.get('/modulo_cpu');
 }
 
-const killProcess = (pid) => {
-    return http.get(`/kill_process/${pid}`);
+const killProcess = (uid) => {
+    return http.get(`/kill_process?id=${uid}`);
 }
 
 export default {

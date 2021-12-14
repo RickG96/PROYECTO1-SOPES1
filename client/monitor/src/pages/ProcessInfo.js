@@ -29,6 +29,8 @@ export class ProcessInfo extends Component {
   killProcess = async (pid) => {
     try {
       const data = await api.killProcess(pid);
+
+      this.fetchData();
     } catch (error) {
       console.error(error);
     }
@@ -48,7 +50,7 @@ export class ProcessInfo extends Component {
         zomb: 0,
         total: arrayProcess.length
       }
-      console.log(processData.total);
+      
       arrayProcess.forEach(element => {
         if (element.state === 0) {
           // exec

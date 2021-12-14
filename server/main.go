@@ -9,7 +9,7 @@ import (
     //"reflect"
     "strconv"
     "strings"
-    "github.com/gorilla/mux"
+    //"github.com/gorilla/mux"
 )
 
 type Ram struct {
@@ -71,11 +71,22 @@ func killProcess(w http.ResponseWriter, r *http.Request) {
 
     fmt.Println("Request kill process...")
 
-    vars := mux.Vars(r)
-    key := vars["id"]
+    query := r.URL.Query()
+    idProcess := query.Get("id") 
 
-    fmt.Println("key: " + key)
-    fmt.Fprintf(w, "Key: " + key)
+    cmd := exec.Command("sh", "-c", "kill -9 " + idProcess)
+    out, err := cmd.CombinedOutput()
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    output := string(out[:])
+
+
+
+    fmt.Fprintf(w,idProcess)
+    fmt.Println(idProcess + output)
 }
 
 func returnRamInfo(w http.ResponseWriter, r *http.Request) {
@@ -150,7 +161,7 @@ func handleRequests() {
     //http.HandleFunc("/", homePage)
     http.HandleFunc("/modulo_ram", returnRamInfo)
     http.HandleFunc("/modulo_cpu", returnCpuInfo)
-    http.HandleFunc("/kill_process/{id}", killProcess)
+    http.HandleFunc("/kill_process", killProcess)
 
     log.Fatal(http.ListenAndServe(":10000", nil))
 }
