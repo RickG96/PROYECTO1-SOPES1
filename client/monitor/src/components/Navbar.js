@@ -12,13 +12,13 @@ class Navbar extends React.Component {
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link active" to="/">Home</Link>
+                <Link className="nav-link active" to="/process-info">Procesos</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link active" to="/">Features</Link>
+                <Link className="nav-link active" to="/cpu-monitor">CPU</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link active" to="/">Pricing</Link>
+                <Link className="nav-link active" to="/ram-monitor">RAM</Link>
               </li>
             </ul>
           </div>

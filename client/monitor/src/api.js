@@ -4,6 +4,10 @@ const getRam = () => {
     return http.get('/modulo_ram');
 }
 
+const getCpu = () => {
+    return http.get('/cpu_usage');
+}
+
 const getProcess = () => {
     return http.get('/modulo_cpu');
 }
@@ -15,5 +19,6 @@ const killProcess = (uid) => {
 export default {
     getRam,
     getProcess,
-    killProcess
+    killProcess,
+    getCpu
 }

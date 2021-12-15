@@ -127,6 +127,7 @@ export class ProcessInfo extends Component {
                   <th scope="col">PID</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Estado</th>
+                  <th scope="col">Usuario</th>
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
@@ -139,6 +140,7 @@ export class ProcessInfo extends Component {
                         <td>{process.pid}</td>
                         <td>{process.name}</td>
                         <td>{process.state}</td>
+                        <td>{process.user}</td>
                         <td>
                           <button className="btn btn-danger" onClick={() => this.killProcess(process.pid)}>
                             KILL

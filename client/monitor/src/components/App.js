@@ -4,6 +4,7 @@ import Layout from './Layout';
 
 import RamMonitor from '../pages/RamMonitor';
 import { ProcessInfo } from '../pages/ProcessInfo';
+import CpuMonitor from '../pages/CpuMonitor';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/ram-monitor" element={<RamMonitor/>} />
           <Route path="/process-info" element={<ProcessInfo/>} />
+          <Route path="/cpu-monitor" element={<CpuMonitor/>} />
         </Routes>
       </Layout>
     </BrowserRouter>
