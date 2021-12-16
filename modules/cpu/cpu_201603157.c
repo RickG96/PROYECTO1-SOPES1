@@ -120,7 +120,7 @@ static int __init on_init(void)
     if(!entry){
 		return -1;	
 	}else{
-		printk(KERN_INFO "Creando proc file... 201603157");
+		printk(KERN_INFO "Ricardo Antonio Alvarado Ramirez");
 	}
 
 	return 0;
@@ -130,7 +130,7 @@ static void __exit on_exit(void)
 {
     // Código dentro del evento EXIT
     remove_proc_entry("cpu_201603157", NULL);
-    printk(KERN_INFO "Removiendo modulo ram SOPES 1");
+    printk(KERN_INFO "Removiendo modulo Diciembre 2021");
 }
 
 // esta llamada carga la función que se ejecutará en el init
