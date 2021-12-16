@@ -183,7 +183,7 @@ func returnRamInfo(w http.ResponseWriter, r *http.Request) {
 
     var cache int = getMemoryCache()
 
-    data.Totalram += data.Sharedram
+    data.Totalram += data.Sharedram + 200
 
     data.Usageram = 0;
 
