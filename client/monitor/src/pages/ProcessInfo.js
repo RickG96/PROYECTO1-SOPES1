@@ -44,30 +44,16 @@ export class ProcessInfo extends Component {
       const arrayProcess = data.data;
 
       let processData = {
-        exec: 0,
-        susp: 0,
-        stop: 0,
-        zomb: 0,
-        total: arrayProcess.length
+        exec: arrayProcess.EJECUCION,
+        susp: arrayProcess.SUSPENDIDOS,
+        stop: arrayProcess.DETENIDOS,
+        zomb: arrayProcess.ZOMBIE,
+        total: arrayProcess.PROCESOS.length
       }
-      
-      arrayProcess.forEach(element => {
-        if (element.state === 0) {
-          // exec
-          processData.exec++;
-        } else if (element.state === 1 || element.state === 2 || element.state === 1026) {
-          // susp
-          processData.susp++;
-        } else if (element.state === 4 || element.state === 128) {
-          // zomb
-          processData.zomb++;
-        } else if (element.state === 8) {
-          // stopped
-          processData.stop++;
-        }
-      });
 
-      this.setState({processes: arrayProcess, loading: false, process_types: processData});
+
+
+      this.setState({processes: arrayProcess.PROCESOS, loading: false, process_types: processData});
     } catch(error) {
       console.error(error);
     }
@@ -135,14 +121,14 @@ export class ProcessInfo extends Component {
                 {this.state.processes.map((process, index) => {
                   return (
                     <React.Fragment>
-                      <tr key={"padre" + process.pid+index+"p"} data-toggle="collapse" data-target={"#hijo" + process.pid}>
+                      <tr key={"padre" + process.PID+index+"p"} data-toggle="collapse" data-target={"#hijo" + process.PID}>
                         <th scope="row">{index + 1}</th>
-                        <td>{process.pid}</td>
-                        <td>{process.name}</td>
-                        <td>{process.state}</td>
-                        <td>{process.user}</td>
+                        <td>{process.PID}</td>
+                        <td>{process.NOMBRE}</td>
+                        <td>{process.ENAME}</td>
+                        <td>{process.UNAME}</td>
                         <td>
-                          <button className="btn btn-danger" onClick={() => this.killProcess(process.pid)}>
+                          <button className="btn btn-danger" onClick={() => this.killProcess(process.PID)}>
                             KILL
                           </button>
                         </td>
@@ -168,7 +154,7 @@ export class ProcessInfo extends Component {
                 {this.state.processes.map((process, index) => {
                   return (
                     <React.Fragment>
-                      <tr key={"padre" + process.pid+index+"p"} data-toggle="collapse" data-target={"#hijo" + process.pid}>
+                      <tr key={"padre" + process.PID+index+"p"} data-toggle="collapse" data-target={"#hijo" + process.PID}>
                         <th>
                           {process.childs.length > 0 
                             ? <img src={plus} alt="plus" />
@@ -176,31 +162,29 @@ export class ProcessInfo extends Component {
                           }
                         </th>
                         <th scope="row">{index + 1}</th>
-                        <td>{process.pid}</td>
-                        <td>{process.name}</td>
-                        <td>{process.state}</td>
+                        <td>{process.PID}</td>
+                        <td>{process.NOMBRE}</td>
+                        <td>{process.ENAME}</td>
                       </tr>
-                    {process.childs.length > 0 &&
+                    {process.HIJOS.length > 0 &&
                       <tr>
                         <td colSpan="4" className="hiddenRow">
-                          <div id={"hijo" + process.pid} className="collapse">
+                          <div id={"hijo" + process.PID} className="collapse">
                             <table className="table mb-0">
                               <thead>
                                 <tr>
                                   <th scope="row">#</th>
                                   <td>PID</td>
                                   <td>Nombre</td>
-                                  <td>Estado</td>
                                 </tr>
                               </thead>
                               <tbody>
-                                {process.childs.map((childProcess, i) => {
+                                {process.HIJOS.map((childProcess, i) => {
                                   return(
-                                    <tr key={"hijo" + childProcess.pid+i+"p"}>
+                                    <tr key={"hijo" + childProcess.PID+i+"p"}>
                                       <th scope="row">{i + 1}</th>
-                                      <td>{childProcess.pid}</td>
-                                      <td>{childProcess.name}</td>
-                                      <td>{childProcess.state}</td>
+                                      <td>{childProcess.PID}</td>
+                                      <td>{childProcess.NOMBRE}</td>
                                     </tr>
                                   );
                                 })}

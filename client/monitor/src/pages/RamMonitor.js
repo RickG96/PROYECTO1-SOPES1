@@ -10,11 +10,11 @@ export class RamMonitor extends Component {
 
     this.state = {
       data: {
-        totalRam: 0,
-        freeRam: 0,
-        usageRam: 0,
-        usagePercentage: 0,
-        sharedRam: 0
+        TOTAL: 0,
+        FREE: 0,
+        CONSUMIDA: 0,
+        PCT: 0,
+        SHARED: 0
       },
       chart_data: [],
       loading: true,
@@ -26,18 +26,15 @@ export class RamMonitor extends Component {
     try {
       const data = await api.getRam();
 
-      //console.log(data.data);
-
       let d = new Date();
 
       let chartAxis = {
         x: d.getMinutes() + ":" + d.getSeconds(),
-        y: data.data.usagePercentage
+        y: data.data.PCT
       }
 
       this.setState({ data: { ...this.state.data, ...data.data }, chart_data: [...this.state.chart_data, chartAxis] })
-      //console.log(this.state.data);
-      //console.log(this.state.chart_data);
+      
     } catch (error) {
       this.setState({ error: error });
       console.error(error);
@@ -92,10 +89,10 @@ export class RamMonitor extends Component {
               <div className="card-header">Monitor de sistema</div>
               <div className="card-body">
                 <h5 className="card-title">DATOS MEMORIA RAM</h5>
-                <p className="card-text">RAM total: {this.state.data.totalRam}</p>
-                <p className="card-text">RAM libre: {this.state.data.freeRam}</p>
-                <p className="card-text">RAM utilizada: {this.state.data.usageRam}</p>
-                <p className="card-text">RAM % Utilizada: {this.state.data.usagePercentage}%</p>
+                <p className="card-text">RAM total: {this.state.data.TOTAL}</p>
+                <p className="card-text">RAM libre: {this.state.data.FREE}</p>
+                <p className="card-text">RAM utilizada: {this.state.data.CONSUMIDA}</p>
+                <p className="card-text">RAM % Utilizada: {this.state.data.PCT}%</p>
               </div>
             </div>
           </div>
