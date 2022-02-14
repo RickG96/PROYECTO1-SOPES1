@@ -1,7 +1,7 @@
 import http from './http-common';
 
 const getRam = () => {
-    return http.get('/modulo_ram');
+    return http.get('/ram');
 }
 
 const getCpu = () => {
@@ -9,11 +9,11 @@ const getCpu = () => {
 }
 
 const getProcess = () => {
-    return http.get('/modulo_cpu');
+    return http.get('/proc');
 }
 
 const killProcess = (uid) => {
-    return http.get(`/kill_process?id=${uid}`);
+    return http.get(`/proc/${uid}`);
 }
 
 export default {
